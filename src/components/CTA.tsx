@@ -14,7 +14,7 @@ const CTA = () => {
             </h2>
             <p className="text-lg md:text-xl opacity-90 leading-relaxed">
               Join thousands of students who have successfully completed their projects with our expert guidance. 
-              Whether you need full project development or just want to use our app, we're here to help you succeed.
+              Whether you need full project development or just want to use our app, we are here to help you succeed.
             </p>
             
             {/* Features List */}
