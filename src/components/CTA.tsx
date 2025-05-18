@@ -116,15 +116,18 @@ const CTA = () => {
                 </div>
 
                 <div className="flex flex-col gap-3">
-                  <a href="#" className="inline-block">
-                    <Image 
-                      src="/images/google-play-badge.png" 
-                      alt="Download on Google Play" 
-                      width={160} 
-                      height={48}
-                      className="h-12 w-auto mx-auto"
-                    />
-                  </a>
+                <a href="#" className="inline-block">
+  <div className="bg-black rounded-lg px-4 py-3 flex items-center space-x-3 w-fit mx-auto">
+    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 512 512">
+      <path d="M325.3 234.3L104.2 30.9c-2.9-2.6-6.2-4.6-9.8-5.9L308.6 245.8l16.7-11.5zm20.2 17.5l-41.3 28.6-202.6 145c3.4-1.3 6.6-3.2 9.3-5.6l221.4-203.9c4.8-4.4 4.8-11.9 0-16.3zM86.8 488c3.3-.9 6.3-2.5 9-4.7l203.2-145.6L86.4 131.3c-.5.4-.9.8-1.3 1.3-4.8 5.4-7.4 12.8-7.4 20.7v288c0 11.3 4.6 20.5 9.1 25.7zm338.6-208.1l-71.5-35.5-23.5 16.3 24.5 17-24.5 17 23.5 16.3 71.5-35.5c13.1-6.5 13.1-24.6 0-31.1z"/>
+    </svg>
+    <div className="text-left">
+      <div className="text-xs text-gray-400">Get it on</div>
+      <div className="text-base font-semibold text-white">Google Play</div>
+    </div>
+  </div>
+</a>
+
                   <a href="#" className="inline-block">
                     <div className="bg-black rounded-lg px-4 py-3 flex items-center space-x-3 w-fit mx-auto">
                       <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">

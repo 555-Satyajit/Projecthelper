@@ -7,6 +7,8 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "ProjectHelper - Academic Project Solutions for Students",
   description: "Order custom academic projects or download our app to simplify your project work. Get expert help with your student projects.",
+   icons: {
+    icon: "/logo.png"},
 };
 
 export default function RootLayout({

@@ -6,8 +6,8 @@ const navItems: NavItem[] = [
   { label: 'Home', href: '#' },
   { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Download', href: '#download' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Download', href: '#CTA' },
+  { label: 'Contact', href: '#CTA' },
 ];
 
 const Navbar = () => {
@@ -16,7 +16,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center py-4">
         <Link href="/" className="flex items-center space-x-2">
           <Image 
-            src="/images/logo.svg" 
+            src="/images/logo.png" 
             alt="ProjectHelper Logo" 
             width={40} 
             height={40} 
