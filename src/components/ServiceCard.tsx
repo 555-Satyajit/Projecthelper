@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, useAnimation, useMotionValue, useSpring } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Service } from '../types';

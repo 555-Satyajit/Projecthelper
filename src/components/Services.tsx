@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { services } from '../data/services';
-import { motion, useAnimation, useMotionValue, useSpring, useTransform, Variants } from 'framer-motion';
+import { motion, useAnimation, useMotionValue, useSpring, Variants } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 type KineticTypographyProps = {
@@ -83,7 +83,7 @@ const MagneticElement = ({ children }: { children: React.ReactNode }) => {
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     
-    const distance = 15;
+    
     x.set((e.clientX - centerX) / 5);
     y.set((e.clientY - centerY) / 5);
   };
@@ -304,7 +304,6 @@ const staggerVariants = {
 };
 
 const Services = () => {
-  const [activeSection, setActiveSection] = useState(0);
   const controls = useAnimation();
   const [ref, inView] = useInView({
     threshold: 0.1,
