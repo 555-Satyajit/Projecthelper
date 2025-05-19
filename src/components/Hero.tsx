@@ -6,7 +6,7 @@ import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 const Hero = () => {
   const blobRef = useRef<SVGSVGElement>(null);
   const [blobPath, setBlobPath] = useState("");
-  const [_, setIsHovering] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const appControls = useAnimation();
   
