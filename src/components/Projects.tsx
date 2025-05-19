@@ -104,7 +104,7 @@ const Projects = () => {
         }
         
         .animate-marquee {
-          animation: marquee 40s linear infinite;
+          animation: marquee 10s linear infinite;
         }
         
         .animate-pause:hover {

@@ -6,7 +6,7 @@ import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 const Hero = () => {
   const blobRef = useRef<SVGSVGElement>(null);
   const [blobPath, setBlobPath] = useState("");
-  const [isHovering, setIsHovering] = useState(false);
+  const [setIsHovering] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const appControls = useAnimation();
   
@@ -508,7 +508,7 @@ const Hero = () => {
         <div className="bg-slate-900 rounded-lg p-3 font-mono text-xs">
           <div>const project = new ProjectHelper();</div>
           <div>project.complete();</div>
-          <div>// Success! ✨</div>
+          <div> Success! ✨</div>
         </div>
       </div>
       

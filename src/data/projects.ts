@@ -7,7 +7,7 @@ export const projects: Project[] = [
     description: 'Facial recognition based attendance system with mobile app integration for educational institutions.',
     category: 'Mobile & IoT',
     imageUrl: '/images/projects/attendance-system.jpg',
-    price: 12999,
+    price: 14999,
     technologies: ['React Native', 'TensorFlow', 'Node.js', 'MongoDB'],
     completionDate: '2024-03-15'
   },
