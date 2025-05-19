@@ -6,7 +6,7 @@ import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 const Hero = () => {
   const blobRef = useRef<SVGSVGElement>(null);
   const [blobPath, setBlobPath] = useState("");
-  const [setIsHovering] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const appControls = useAnimation();
   
@@ -69,19 +69,27 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Feature rotation with auto-cycling
+  // Feature rotation with auto-cycling - Fixed to include features.length in dependencies
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveFeature((prev) => (prev + 1) % features.length);
     }, 4000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [features.length]); // Added features.length as a dependency
 
   // Mock app animation sequence
   useEffect(() => {
     const sequence = async () => {
-      await appControls.start({ y: [0, -10, 0], rotate: [0, -1, 1, 0], transition: { duration: 4, repeat: Infinity, repeatType: "reverse" } });
+      await appControls.start({ 
+        y: [0, -10, 0], 
+        rotate: [0, -1, 1, 0], 
+        transition: { 
+          duration: 4, 
+          repeat: Infinity, 
+          repeatType: "reverse" 
+        } 
+      });
     };
     
     sequence();
@@ -243,6 +251,7 @@ const Hero = () => {
                     key={idx}
                     onClick={() => setActiveFeature(idx)}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === activeFeature ? 'bg-indigo-600 w-4' : 'bg-slate-300'}`}
+                    aria-label={`Select feature: ${features[idx].title}`}
                   />
                 ))}
               </div>
