@@ -367,7 +367,7 @@ const Services = () => {
       duration: 18 + i * 4
     }));
   }, []);
-AnimatedText
+
   return (
     <GridBackground 
       gridSize={40} // Increased grid size for performance
@@ -508,3 +508,4 @@ AnimatedText
 };
 
 export default Services;
+AnimatedText({ text: "Sample text" })
