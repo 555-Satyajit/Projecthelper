@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const CTA = () => {
   return (
-    <section className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white py-16">
+   <section id="ser" className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white py-16">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}

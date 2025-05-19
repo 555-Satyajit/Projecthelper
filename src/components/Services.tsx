@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { services } from '../data/services';
 import { motion, useAnimation, useMotionValue, useSpring, Variants } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { TextScramble, GlitchText } from './TextScrambleEffect';
+import GridBackground from './GridBackground';
 
 type KineticTypographyProps = {
   text: string;
@@ -189,7 +191,7 @@ const staggerVariants = {
   return (
     <motion.div
       ref={ref}
-      className="bg-white rounded-xl shadow-lg p-6 border border-gray-100"
+      className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 backdrop-blur-sm bg-opacity-90"
       initial={{ opacity: 0, scale: 0.95, y: 30 }}
       animate={controls}
       variants={{
@@ -249,7 +251,13 @@ const staggerVariants = {
         className="mt-4"
       >
         <h3 className="text-xl font-bold mb-2 text-gray-800">
-          <KineticTypography text={service.title} delay={index * 0.1 + 0.3} />
+          <GlitchText 
+            text={service.title} 
+            delay={index * 0.2 + 0.3} 
+            duration={1.5}
+            scrambleSpeed={30}
+            inView={inView}
+          />
         </h3>
       </motion.div>
       
@@ -316,117 +324,160 @@ const Services = () => {
     }
   }, [controls, inView]);
 
-  return (
-    <section id="services" className="section bg-gray-50 py-24 overflow-hidden">
-      <div className="container mx-auto px-4 relative">
-        {/* Background animated elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute bg-blue-100 bg-opacity-40 rounded-full"
-              style={{
-                width: Math.random() * 300 + 50,
-                height: Math.random() * 300 + 50,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                zIndex: 0
-              }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ 
-                scale: [0, 1, 0.8, 1], 
-                opacity: [0, 0.2, 0.1, 0],
-                x: Math.random() * 100 - 50,
-                y: Math.random() * 100 - 50,
-              }}
-              transition={{ 
-                repeat: Infinity,
-                repeatType: "reverse",
-                duration: 15 + i * 5,
-                delay: i * 3,
-                ease: "easeInOut"
-              }}
-            />
-          ))}
-        </div>
+  // Cyberpunk-inspired color schemes
+  const glitchColors = [
+    'from-blue-500 to-purple-600',
+    'from-cyan-400 to-blue-600', 
+    'from-pink-500 to-purple-600',
+    'from-green-400 to-cyan-500',
+  ];
+  
+  const [colorScheme, setColorScheme] = useState(glitchColors[0]);
+  
+  // Simulate random glitching of the colors
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * glitchColors.length);
+      setColorScheme(glitchColors[randomIndex]);
+    }, 5000); // Change every 5 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
 
-        <motion.div 
-          ref={ref}
-          className="text-center mb-16 relative z-10"
-          initial="hidden"
-          animate={controls}
-          variants={{
-            visible: { transition: { staggerChildren: 0.2 } },
-            hidden: {}
-          }}
-        >
-          <SplitScreenTransition direction="left">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-              <KineticTypography text="Our Services" />
-            </h2>
-          </SplitScreenTransition>
-          
-          <SplitScreenTransition direction="right" delay={0.2}>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              We provide comprehensive solutions for all your academic project needs, 
-              from consultation to complete development
-            </p>
-          </SplitScreenTransition>
-        </motion.div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 relative z-10">
-          {services.map((service, index) => (
-            <ServiceCard 
-              key={service.id} 
-              service={service} 
-              index={index}
-            />
-          ))}
-        </div>
-        
-        <div className="mt-20 text-center relative z-10">
-          <MagneticElement>
-            <motion.a 
-              href="#contact" 
-              className="btn-primary inline-flex items-center px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg"
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ 
-                opacity: 1, 
-                y: 0,
-                transition: { delay: 1, duration: 0.8 }
-              }}
-            >
-              <span>Request Custom Service</span>
-              <motion.svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                fill="none" 
-                viewBox="0 0 24 24" 
-                stroke="currentColor" 
-                className="ml-2 w-5 h-5"
-                animate={{ x: [0, 5, 0] }}
+  return (
+    <GridBackground 
+      gridSize={30} 
+      lineColor="#3b82f6" 
+      lineOpacity={0.07}
+      highlightOnHover={true}
+      className="section py-24 overflow-hidden"
+    >
+      <section id="services" className="relative">
+        <div className="container mx-auto px-4 relative">
+          {/* Background animated elements with glitch effects */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute bg-blue-100 bg-opacity-40 rounded-full"
+                style={{
+                  width: Math.random() * 300 + 50,
+                  height: Math.random() * 300 + 50,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  zIndex: 0
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ 
+                  scale: [0, 1, 0.8, 1], 
+                  opacity: [0, 0.2, 0.1, 0],
+                  x: Math.random() * 100 - 50,
+                  y: Math.random() * 100 - 50,
+                }}
                 transition={{ 
-                  repeat: Infinity, 
-                  duration: 1.5,
-                  ease: "easeInOut" 
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  duration: 15 + i * 5,
+                  delay: i * 3,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </div>
+
+          <motion.div 
+            ref={ref}
+            className="text-center mb-16 relative z-10"
+            initial="hidden"
+            animate={controls}
+            variants={{
+              visible: { transition: { staggerChildren: 0.2 } },
+              hidden: {}
+            }}
+          >
+            <SplitScreenTransition direction="left">
+              <h2 className={`text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r ${colorScheme}`}>
+                <TextScramble 
+                  text="Our Services" 
+                  delay={0.3} 
+                  duration={2} 
+                  scrambleSpeed={40}
+                />
+              </h2>
+            </SplitScreenTransition>
+            
+            <SplitScreenTransition direction="right" delay={0.2}>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                <TextScramble 
+                  text="We provide comprehensive solutions for all your academic project needs, from consultation to complete development" 
+                  delay={0.8}
+                  duration={1.5}
+                  scrambleSpeed={25}
+                />
+              </p>
+            </SplitScreenTransition>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 relative z-10">
+            {services.map((service, index) => (
+              <ServiceCard 
+                key={service.id} 
+                service={service} 
+                index={index}
+              />
+            ))}
+          </div>
+          
+          <div className="mt-20 text-center relative z-10">
+            <MagneticElement>
+              <motion.a 
+                href="#contact" 
+                className={`btn-primary inline-flex items-center px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r ${colorScheme} shadow-lg`}
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  transition: { delay: 1, duration: 0.8 }
                 }}
               >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M17 8l4 4m0 0l-4 4m4-4H3" 
+                <TextScramble 
+                  text="Request Custom Service" 
+                  delay={1.2}
+                  duration={1}
+                  scrambleSpeed={30} 
+                  className="inline-block"
                 />
-              </motion.svg>
-            </motion.a>
-          </MagneticElement>
+                <motion.svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor" 
+                  className="ml-2 w-5 h-5"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    duration: 1.5,
+                    ease: "easeInOut" 
+                  }}
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M17 8l4 4m0 0l-4 4m4-4H3" 
+                  />
+                </motion.svg>
+              </motion.a>
+            </MagneticElement>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </GridBackground>
   );
 };
 

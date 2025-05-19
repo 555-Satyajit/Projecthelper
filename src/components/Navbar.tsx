@@ -6,8 +6,8 @@ const navItems: NavItem[] = [
   { label: 'Home', href: '#' },
   { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Download', href: '#CTA' },
-  { label: 'Contact', href: '#CTA' },
+  { label: 'Download', href: '#ser' },
+  { label: 'Contact', href: '#ser' },
 ];
 
 const Navbar = () => {
