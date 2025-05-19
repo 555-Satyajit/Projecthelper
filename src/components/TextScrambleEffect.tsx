@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
 interface TextScrambleProps {
@@ -21,38 +21,13 @@ export const TextScramble: React.FC<TextScrambleProps> = ({
   scrambleSpeed = 50,
 }) => {
   const [displayText, setDisplayText] = useState('');
-  const [setIsScrambling] = useState(false);
+  const [_, setIsScrambling] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const finalTextRef = useRef(text);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    finalTextRef.current = text;
-    
-    // Reset if text changes
-    if (isComplete) {
-      setIsScrambling(true);
-      setIsComplete(false);
-      startScrambling();
-    }
-  }, [text]);
-
-  useEffect(() => {
-    // Initial delay before starting scramble effect
-    const timer = setTimeout(() => {
-      setIsScrambling(true);
-      startScrambling();
-    }, delay * 1000);
-
-    return () => {
-      clearTimeout(timer);
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [delay]);
-
-  const startScrambling = () => {
+  // Define startScrambling as useCallback to avoid dependency cycles
+  const startScrambling = useCallback(() => {
     let iteration = 0;
     const maxIterations = duration * 1000 / scrambleSpeed;
     const finalText = finalTextRef.current;
@@ -105,13 +80,39 @@ export const TextScramble: React.FC<TextScrambleProps> = ({
         }
       }
     }, scrambleSpeed);
+  }, [duration, scrambleSpeed, setDisplayText, setIsScrambling, setIsComplete]);
 
+  // Cleanup function to clear interval when component unmounts
+  useEffect(() => {
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     };
-  };
+  }, []);
+
+  useEffect(() => {
+    finalTextRef.current = text;
+    
+    // Reset if text changes
+    if (isComplete) {
+      setIsScrambling(true);
+      setIsComplete(false);
+      startScrambling();
+    }
+  }, [text, isComplete, startScrambling, setIsScrambling, setIsComplete]);
+
+  useEffect(() => {
+    // Initial delay before starting scramble effect
+    const timer = setTimeout(() => {
+      setIsScrambling(true);
+      startScrambling();
+    }, delay * 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [delay, startScrambling, setIsScrambling]);
 
   return (
     <motion.span 
@@ -160,4 +161,7 @@ export const GlitchText: React.FC<TextScrambleProps & { inView?: boolean }> = ({
     </span>
   );
 };
-export default { TextScramble, GlitchText };
+
+// Proper named export for the default export
+const TextScrambleComponents = { TextScramble, GlitchText };
+export default TextScrambleComponents;
