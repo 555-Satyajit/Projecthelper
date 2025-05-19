@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { services } from '../data/services';
 import { motion, useAnimation, useMotionValue, useSpring, Variants, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { TextScramble, GlitchText } from './TextScrambleEffect';
+import {  GlitchText } from './TextScrambleEffect';
 import GridBackground from './GridBackground';
 
 // Performance optimization: Properly use the AnimatedText component
