@@ -8,7 +8,7 @@ import { TextScramble, GlitchText } from './TextScrambleEffect';
 import GridBackground from './GridBackground';
 
 // Performance optimization: Memoized component
-const KineticTypography = ({ text, delay = 0 }: { text: string; delay?: number }) => {
+const AnimatedText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
   const characters = useMemo(() => Array.from(text), [text]);
   
   const container: Variants = {
@@ -367,7 +367,7 @@ const Services = () => {
       duration: 18 + i * 4
     }));
   }, []);
-
+AnimatedText
   return (
     <GridBackground 
       gridSize={40} // Increased grid size for performance
