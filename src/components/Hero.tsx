@@ -6,7 +6,6 @@ import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 const Hero = () => {
   const blobRef = useRef<SVGSVGElement>(null);
   const [blobPath, setBlobPath] = useState("");
-  const [isHovering, setIsHovering] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
   const appControls = useAnimation();
   
@@ -269,9 +268,8 @@ const Hero = () => {
               variants={buttonVariants}
               initial="initial"
               whileHover="hover"
-              onHoverStart={() => setIsHovering(true)}
-              onHoverEnd={() => setIsHovering(false)}
               whileTap={{ scale: 0.95 }}
+              aria-label="Explore Projects"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
@@ -285,6 +283,7 @@ const Hero = () => {
               initial="initial"
               whileHover="hover"
               whileTap={{ scale: 0.95 }}
+              aria-label="Download App"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd"></path>

@@ -7,7 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import { TextScramble, GlitchText } from './TextScrambleEffect';
 import GridBackground from './GridBackground';
 
-// Performance optimization: Memoized component
+// Performance optimization: Properly use the AnimatedText component
 const AnimatedText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
   const characters = useMemo(() => Array.from(text), [text]);
   
@@ -423,22 +423,17 @@ const Services = () => {
           >
             <SplitScreenTransition direction="left">
               <h2 className={`text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r ${colorScheme}`}>
-                <TextScramble 
-                  text="Our Services" 
-                  delay={0.2} 
-                  duration={1.5} 
-                  scrambleSpeed={40}
-                />
+                {/* Use AnimatedText for better performance */}
+                <AnimatedText text="Our Services" delay={0.2} />
               </h2>
             </SplitScreenTransition>
             
             <SplitScreenTransition direction="right" delay={0.15}>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                <TextScramble 
+                {/* Use AnimatedText for better performance */}
+                <AnimatedText 
                   text="We provide comprehensive solutions for all your academic project needs, from consultation to complete development" 
-                  delay={0.6} // Reduced delay
-                  duration={1.2} // Reduced duration
-                  scrambleSpeed={30}
+                  delay={0.6}
                 />
               </p>
             </SplitScreenTransition>
@@ -471,12 +466,10 @@ const Services = () => {
                   transition: { delay: 0.8, duration: 0.6 } // Reduced delay and duration
                 }}
               >
-                <TextScramble 
-                  text="Request Custom Service" 
+                {/* Replace TextScramble with AnimatedText for better performance */}
+                <AnimatedText 
+                  text="Request Custom Service"
                   delay={1}
-                  duration={0.8}
-                  scrambleSpeed={30} 
-                  className="inline-block"
                 />
                 <motion.svg 
                   xmlns="http://www.w3.org/2000/svg" 
@@ -508,4 +501,3 @@ const Services = () => {
 };
 
 export default Services;
-AnimatedText({ text: "Sample text" })

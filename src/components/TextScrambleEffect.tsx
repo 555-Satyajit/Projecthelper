@@ -28,6 +28,8 @@ export const TextScramble: React.FC<TextScrambleProps> = ({
 
   // Define startScrambling as useCallback to avoid dependency cycles
   const startScrambling = useCallback(() => {
+    if (!isScrambling) return; // Only start if isScrambling is true
+    
     let iteration = 0;
     const maxIterations = duration * 1000 / scrambleSpeed;
     const finalText = finalTextRef.current;
@@ -45,6 +47,13 @@ export const TextScramble: React.FC<TextScrambleProps> = ({
 
     // Start scrambling effect
     intervalRef.current = setInterval(() => {
+      if (!isScrambling) {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+        return;
+      }
+      
       iteration++;
       
       // Calculate how many characters should be finalized based on progress
@@ -80,7 +89,7 @@ export const TextScramble: React.FC<TextScrambleProps> = ({
         }
       }
     }, scrambleSpeed);
-  }, [duration, scrambleSpeed, setDisplayText, setIsScrambling, setIsComplete]);
+  }, [duration, scrambleSpeed, isScrambling]);
 
   // Cleanup function to clear interval when component unmounts
   useEffect(() => {
@@ -95,24 +104,29 @@ export const TextScramble: React.FC<TextScrambleProps> = ({
     finalTextRef.current = text;
     
     // Reset if text changes
-    if (isComplete) {
+    if (isComplete && text !== displayText) {
       setIsScrambling(true);
       setIsComplete(false);
+    }
+  }, [text, isComplete, displayText]);
+
+  // Start scrambling effect when isScrambling changes to true
+  useEffect(() => {
+    if (isScrambling) {
       startScrambling();
     }
-  }, [text, isComplete, startScrambling, setIsScrambling, setIsComplete]);
+  }, [isScrambling, startScrambling]);
 
   useEffect(() => {
     // Initial delay before starting scramble effect
     const timer = setTimeout(() => {
       setIsScrambling(true);
-      startScrambling();
     }, delay * 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [delay, startScrambling, setIsScrambling]);
+  }, [delay]);
 
   return (
     <motion.span 
